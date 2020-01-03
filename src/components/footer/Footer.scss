@@ -1,0 +1,15 @@
+.Footer{
+    display: flex;
+    background: #bb9860;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    font-size: .35rem;
+    a{
+        flex-grow: 1;
+        text-align: center;
+        color: #fff;
+        &.active{
+            color: red;
+        }
+    }
+}

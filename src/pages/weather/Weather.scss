@@ -1,0 +1,14 @@
+.Weather{
+   .test{
+    text-align: center;
+    color: red;
+   }
+   .test-img{
+        width: 3rem;
+        height: 3rem;
+        right: 1rem;
+        top: 2rem;
+        background: url(./images/T2.jpg) 0 0/100% 100% no-repeat;
+        position: absolute;
+   }
+}
