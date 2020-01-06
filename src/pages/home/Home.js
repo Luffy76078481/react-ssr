@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import style from './Home.scss'
 import withStyle from 'withStyle'
+import { Helmet } from "react-helmet"
 import { getWeatherAction } from "../../store/actions"
 
 class Home extends React.Component {
@@ -32,6 +33,11 @@ class Home extends React.Component {
     render() {
         return (
             <div className="Home">
+                <Helmet>
+                    <meta name="keywords" content="设计 ui设计 ps photoshop 平面设计 网页设计 前端" />
+                    <meta name="description" content="Luffy的个人网站，分享前端知识与设计作品" />
+                    <title>Luffy's cli</title>
+                </Helmet>
                 <p className="title">{this.state.weather.city}</p>
                 <ul className="weather-body">
                     {
