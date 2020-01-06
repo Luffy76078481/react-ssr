@@ -78,7 +78,7 @@ if (isDev) {
         contentBase: path.join(__dirname, '../public'),
         proxy: {
             '/api/**': {
-                target: 'https://bb876.com/',
+                target: 'https://baidu.com/',
                 secure: false, //若地址为https，需要设置为false
                 changeOrigin: true //是否跨域
             },
