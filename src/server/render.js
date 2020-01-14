@@ -22,6 +22,8 @@ const serverRender = (req, store, context) => {
         INITIAL_STATE: ${state}
       }
   `
+  console.log("我日你仙人")
+  console.log(cssStr)
   return template.replace('<!--app-->', content)
     // .replace('server-render-css', cssStr + vendorCss)
     .replace('/*server-render-css*/', cssStr)
