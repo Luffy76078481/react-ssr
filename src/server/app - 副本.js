@@ -3,25 +3,14 @@ import serverStore from '../store/serverStore'
 import routes from '../routes/routes'
 import { matchRoutes } from 'react-router-config'
 import Loadable from 'react-loadable';
+import { getBundles } from 'react-loadable/webpack';
 global.fetch = require("node-fetch");
 
 
-
-
-const compress = require('koa-compress');
-
+// 导入koa，和koa 1.x不同,在koa2中，我们导入的是一个class，因此用大写的Koa表示:
 const Koa = require('koa');
 
 const app = new Koa();
-
-app.use(
-    compress({
-        filter: function (content_type) { // 只有在请求的content-type中有gzip类型，我们才会考虑压缩，因为zlib是压缩成gzip类型的
-            return /text/i.test(content_type);
-        },
-        threshold: 1024, // 阀值，当数据超过1kb的时候，可以压缩
-        flush: require('zlib').Z_SYNC_FLUSH // zlib是node的压缩模块
-    }))
 
 
 /* 代理配置 start */
@@ -53,7 +42,7 @@ app.use(bodyparser({
 
 // log request URL:
 app.use(async (ctx, next) => {
-    console.log(`〓〓〓Process ${ctx.request.method} ${ctx.request.url}...`);
+    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
     if (ctx.request.url.indexOf("/api/v0") === -1) {
         await next();
     }
@@ -65,8 +54,7 @@ app.use(async (ctx, next) => {
 var router = require('koa-router')();
 
 router.get('*', async (ctx, next) => {
-    ctx.set('Cache-Control', 'public, max-age=60');//服务端代理端和浏览器都都可缓存，max-age浏览器时间，秒
-    ctx.compress = true
+    ctx.set('Cache-Control', 'cache');
     if (ctx.request.url.indexOf("/static/") !== -1) {
         return next();
     }
@@ -77,11 +65,14 @@ router.get('*', async (ctx, next) => {
         if (!route.component.preload) { // 同步组件
             return route.component;
         } else { // 异步组件
+            console.log("异步组件")
             return route.component.preload().then(res => res.default)
         }
     })
     const loadedComponents = await Promise.all(matchedRoutes);
     const promises = loadedComponents.map(component => {
+        console.log(component)
+        console.log(component.loadData)
         return component.loadData ? component.loadData(store) : Promise.resolve(null)
     })
     await Promise.all(promises).catch(err => console.log('err:---', err))

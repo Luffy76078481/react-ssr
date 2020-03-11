@@ -17,11 +17,10 @@ class Weather extends React.Component {
     }
 
     render() {
-        console.log(this.props.musicList)
         return (
             <div className="Weather" >
                 <div className="test-img"></div>
-                <p>成都昨日天气1</p>
+                <p>成都天气</p>
                 {
                     this.runWeather()
                 }
@@ -65,10 +64,11 @@ const mapDispatch = {
 }
 
 const WeatherPage = withRouter(connect(mapStateToProps, mapDispatch)(withStyle(Weather, style)));
-WeatherPage.loadData = (store, id) => {
+
+WeatherPage.loadData = async (store, id) => {
     const WE = store.dispatch(getWeatherAction({ city: "北京" }))
     const ML = store.dispatch(getMusicList({ type: 1 }))
-    return Promise.all([WE, ML]);
+    return await Promise.all([WE, ML]);
 }
 
 export default WeatherPage

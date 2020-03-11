@@ -73,8 +73,8 @@ const mapDispatch = {
 
 const HomePage = withRouter(connect(mapStateToProps, mapDispatch)(withStyle(Home, style)));
 
-HomePage.loadData = (store, id) => {
-    return store.dispatch(getWeatherAction({ city: "成都" }));
+HomePage.loadData = async (store, id) => {
+    return await store.dispatch(getWeatherAction({ city: "成都" }));
 }
 
 export default HomePage
